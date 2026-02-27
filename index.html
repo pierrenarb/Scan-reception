@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réception Marchandises — Narbonne Accessoires</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --bg-card: #1a1d27;
+    --bg-card-hover: #222633;
+    --bg-input: #141720;
+    --border: #2a2e3d;
+    --border-focus: #4a7cff;
+    --text: #e8eaf0;
+    --text-muted: #8b8fa3;
+    --text-dim: #5c6078;
+    --accent: #4a7cff;
+    --accent-light: #6b95ff;
+    --success: #34d399;
+    --success-bg: rgba(52,211,153,0.1);
+    --success-border: rgba(52,211,153,0.25);
+    --warning: #fbbf24;
+    --warning-bg: rgba(251,191,36,0.1);
+    --warning-border: rgba(251,191,36,0.25);
+    --danger: #f87171;
+    --danger-bg: rgba(248,113,113,0.1);
+    --danger-border: rgba(248,113,113,0.25);
+    --purple: #c084fc;
+    --purple-bg: rgba(192,132,252,0.1);
+    --purple-border: rgba(192,132,252,0.25);
+    --orange: #fb923c;
+    --orange-bg: rgba(251,146,60,0.1);
+    --orange-border: rgba(251,146,60,0.25);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a1d27, #1e2235);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top:0; z-index:100;
+  }
+  .header-left { display:flex; align-items:center; gap:14px; }
+  .logo-icon {
+    width:40px; height:40px;
+    background: linear-gradient(135deg, var(--accent), #7c5cff);
+    border-radius:11px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; color:white;
+  }
+  .header-title { font-size:18px; font-weight:600; }
+  .header-subtitle { font-size:11px; color:var(--text-muted); margin-top:1px; }
+  .header-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+  /* BUTTONS */
+  .btn {
+    display:inline-flex; align-items:center; gap:7px;
+    padding:9px 16px; border-radius:var(--radius);
+    border:1px solid var(--border); background:var(--bg-card);
+    color:var(--text); font-family:inherit; font-size:12px; font-weight:500;
+    cursor:pointer; transition:all 0.2s; white-space:nowrap;
+  }
+  .btn:hover { background:var(--bg-card-hover); }
+  .btn:active { transform:scale(0.97); }
+  .btn-primary { background:var(--accent); border-color:var(--accent); color:white; }
+  .btn-primary:hover { background:var(--accent-light); }
+  .btn-success { background:var(--success); border-color:var(--success); color:#0f1117; font-weight:600; }
+  .btn-danger { background:transparent; border-color:var(--danger); color:var(--danger); }
+  .btn-danger:hover { background:var(--danger-bg); }
+  .btn-orange { background:var(--orange); border-color:var(--orange); color:#0f1117; font-weight:600; }
+  .btn-orange:hover { filter:brightness(1.1); }
+  .btn-orange { background:var(--orange); border-color:var(--orange); color:#0f1117; font-weight:600; }
+  .btn-sm { padding:6px 11px; font-size:11px; }
+  .btn-icon { padding:7px 9px; }
+
+  /* LAYOUT */
+  .container { max-width:1440px; margin:0 auto; padding:20px 28px; }
+  .grid-layout { display:grid; grid-template-columns:360px 1fr; gap:20px; align-items:start; }
+
+  /* CARDS */
+  .card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:var(--radius-lg); overflow:hidden;
+  }
+  .card-header {
+    padding:14px 18px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+  }
+  .card-header h3 { font-size:13px; font-weight:600; }
+  .card-body { padding:18px; }
+
+  /* STATS */
+  .stats-bar { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:20px; }
+  .stat-card {
+    background:var(--bg-card); border:1px solid var(--border);
+    border-radius:var(--radius); padding:14px 16px; text-align:center;
+  }
+  .stat-value {
+    font-family:'JetBrains Mono',monospace;
+    font-size:26px; font-weight:600; margin-bottom:3px;
+  }
+  .stat-label {
+    font-size:10px; color:var(--text-muted);
+    text-transform:uppercase; letter-spacing:0.7px; font-weight:500;
+  }
+
+  /* PROGRESS */
+  .progress-container { margin-bottom:20px; }
+  .progress-bar-outer {
+    width:100%; height:7px; background:var(--bg-input);
+    border-radius:100px; overflow:hidden;
+  }
+  .progress-bar-inner {
+    height:100%; background:linear-gradient(90deg,var(--accent),var(--success));
+    border-radius:100px; transition:width 0.5s cubic-bezier(0.25,1,0.5,1); width:0%;
+  }
+  .progress-label {
+    display:flex; justify-content:space-between;
+    margin-bottom:6px; font-size:12px; color:var(--text-muted);
+  }
+  .progress-label strong { color:var(--text); font-family:'JetBrains Mono',monospace; }
+
+  /* SCAN INPUT */
+  .scan-input-wrapper { position:relative; display:flex; gap:8px; }
+  .scan-input {
+    flex:1; padding:14px 16px 14px 42px;
+    background:var(--bg-input); border:2px solid var(--border);
+    border-radius:var(--radius); color:var(--text);
+    font-family:'JetBrains Mono',monospace;
+    font-size:16px; font-weight:500; letter-spacing:1px; outline:none;
+    transition:all 0.2s;
+  }
+  .scan-input:focus { border-color:var(--accent); box-shadow:0 0 0 4px rgba(74,124,255,0.15); }
+  .scan-input::placeholder { color:var(--text-dim); font-weight:400; letter-spacing:0; font-size:13px; }
+  .scan-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-dim); font-size:17px; }
+
+  .scan-input.flash-success { border-color:var(--success)!important; box-shadow:0 0 0 4px rgba(52,211,153,0.2)!important; }
+  .scan-input.flash-warning { border-color:var(--warning)!important; box-shadow:0 0 0 4px rgba(251,191,36,0.2)!important; }
+  .scan-input.flash-purple { border-color:var(--purple)!important; box-shadow:0 0 0 4px rgba(192,132,252,0.2)!important; }
+  .scan-input.flash-orange { border-color:var(--orange)!important; box-shadow:0 0 0 4px rgba(251,146,60,0.2)!important; }
+  .scan-input.flash-danger { border-color:var(--danger)!important; box-shadow:0 0 0 4px rgba(248,113,113,0.2)!important; }
+
+  /* FEEDBACK */
+  .scan-feedback {
+    margin-top:10px; padding:12px 14px; border-radius:var(--radius);
+    font-size:13px; display:none; align-items:flex-start; gap:10px;
+    animation:slideIn 0.25s ease;
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+
+  @keyframes scanLineMove {
+    0%, 100% { top: 30%; }
+    50% { top: 70%; }
+  }
+  .scan-feedback.visible { display:flex; }
+  .scan-feedback.success { background:var(--success-bg); border:1px solid var(--success-border); color:var(--success); }
+  .scan-feedback.warning { background:var(--warning-bg); border:1px solid var(--warning-border); color:var(--warning); }
+  .scan-feedback.purple { background:var(--purple-bg); border:1px solid var(--purple-border); color:var(--purple); }
+  .scan-feedback.orange { background:var(--orange-bg); border:1px solid var(--orange-border); color:var(--orange); }
+  .scan-feedback.danger { background:var(--danger-bg); border:1px solid var(--danger-border); color:var(--danger); }
+  .feedback-text strong { display:block; margin-bottom:2px; }
+
+  /* ASSOCIATION PANEL */
+  .assoc-panel {
+    margin-top:10px; padding:14px; border-radius:var(--radius);
+    background:var(--orange-bg); border:1px solid var(--orange-border);
+    display:none; animation:slideIn 0.3s ease;
+  }
+  .assoc-panel.visible { display:block; }
+  .assoc-panel h4 { font-size:13px; color:var(--orange); margin-bottom:10px; }
+  .assoc-line {
+    padding:8px 12px; margin-bottom:6px; border-radius:8px;
+    background:rgba(251,146,60,0.06); border:1px solid rgba(251,146,60,0.15);
+    cursor:pointer; transition:all 0.15s; font-size:12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .assoc-line:hover { background:rgba(251,146,60,0.15); border-color:var(--orange); }
+  .assoc-line .assoc-ref { font-family:'JetBrains Mono',monospace; color:var(--orange); font-weight:600; min-width:80px; }
+  .assoc-line .assoc-desc { color:var(--text); flex:1; }
+  .assoc-line .assoc-qty { font-family:'JetBrains Mono',monospace; color:var(--text-muted); }
+
+  /* TABLE */
+  table { width:100%; border-collapse:collapse; }
+  thead th {
+    padding:9px 14px; text-align:left; font-size:10px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.7px; color:var(--text-muted);
+    background:var(--bg-input); border-bottom:1px solid var(--border); white-space:nowrap;
+  }
+  tbody td {
+    padding:10px 14px; border-bottom:1px solid rgba(42,46,61,0.4);
+    font-size:12px; vertical-align:middle;
+  }
+  tbody tr { transition:background 0.15s; }
+  tbody tr:hover { background:rgba(74,124,255,0.04); }
+  tbody tr.row-complete { background:var(--success-bg); }
+  tbody tr.row-over { background:var(--danger-bg); }
+  tbody tr.row-surplus { background:var(--purple-bg); }
+
+  .code-cell { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; color:var(--accent-light); }
+  .qty-cell { font-family:'JetBrains Mono',monospace; font-weight:600; font-size:13px; }
+  
+  .status-badge {
+    display:inline-flex; align-items:center; gap:4px;
+    padding:3px 9px; border-radius:100px;
+    font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.4px;
+  }
+  .status-pending { background:rgba(91,96,120,0.2); color:var(--text-dim); }
+  .status-partial { background:var(--warning-bg); color:var(--warning); border:1px solid var(--warning-border); }
+  .status-complete { background:var(--success-bg); color:var(--success); border:1px solid var(--success-border); }
+  .status-over { background:var(--danger-bg); color:var(--danger); border:1px solid var(--danger-border); }
+  .status-noean { background:var(--orange-bg); color:var(--orange); border:1px solid var(--orange-border); }
+
+  .ean-badge {
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    padding:2px 7px; border-radius:4px; font-weight:500;
+  }
+  .ean-badge.known { background:var(--success-bg); color:var(--success); border:1px solid var(--success-border); }
+  .ean-badge.unknown { background:var(--orange-bg); color:var(--orange); border:1px solid var(--orange-border); }
+
+  /* SIDEBAR */
+  .sidebar .card { margin-bottom:14px; }
+
+  /* IMPORT */
+  .import-zone {
+    border:2px dashed var(--border); border-radius:var(--radius);
+    padding:28px 18px; text-align:center; cursor:pointer;
+    transition:all 0.3s; position:relative;
+  }
+  .import-zone:hover, .import-zone.drag-over { border-color:var(--accent); background:rgba(74,124,255,0.05); }
+  .import-zone input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+  .import-icon { font-size:28px; margin-bottom:8px; color:var(--text-dim); }
+  .import-label { font-size:12px; color:var(--text-muted); margin-bottom:3px; }
+  .import-hint { font-size:10px; color:var(--text-dim); }
+
+  /* DB STATS */
+  .db-info {
+    padding:12px 14px; border-radius:var(--radius);
+    background:rgba(74,124,255,0.06); border:1px solid rgba(74,124,255,0.15);
+    font-size:12px; color:var(--accent-light);
+  }
+  .db-info strong { font-family:'JetBrains Mono',monospace; }
+
+  /* SCAN LOG */
+  .scan-log { max-height:260px; overflow-y:auto; }
+  .log-entry {
+    padding:7px 12px; border-bottom:1px solid rgba(42,46,61,0.3);
+    font-size:11px; display:flex; align-items:center; gap:8px;
+    animation:slideIn 0.2s ease;
+  }
+  .log-time { font-family:'JetBrains Mono',monospace; color:var(--text-dim); font-size:10px; min-width:48px; }
+  .log-code { font-family:'JetBrains Mono',monospace; color:var(--accent-light); font-weight:500; min-width:100px; font-size:10px; }
+  .log-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+  .log-dot.ok { background:var(--success); }
+  .log-dot.warn { background:var(--warning); }
+  .log-dot.extra { background:var(--purple); }
+  .log-dot.over { background:var(--danger); }
+  .log-dot.assoc { background:var(--orange); }
+
+  /* FILTER TABS */
+  .filter-tabs {
+    display:flex; gap:3px; padding:3px; background:var(--bg-input);
+    border-radius:var(--radius);
+  }
+  .filter-tab {
+    padding:7px 12px; border-radius:7px; border:none; background:transparent;
+    color:var(--text-muted); font-family:inherit; font-size:11px; font-weight:500;
+    cursor:pointer; transition:all 0.2s; flex:1; text-align:center;
+  }
+  .filter-tab:hover { color:var(--text); }
+  .filter-tab.active { background:var(--bg-card); color:var(--text); box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+  .tab-count { font-family:'JetBrains Mono',monospace; margin-left:3px; font-size:10px; }
+
+  /* EMPTY STATE */
+  .empty-state { text-align:center; padding:50px 20px; color:var(--text-dim); }
+  .empty-icon { font-size:42px; margin-bottom:14px; opacity:0.5; }
+  .empty-state h3 { font-size:15px; color:var(--text-muted); margin-bottom:6px; }
+  .empty-state p { font-size:12px; max-width:340px; margin:0 auto; line-height:1.6; }
+
+  /* MODALS */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center;
+  }
+  .modal-overlay.active { display:flex; }
+  .modal {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg);
+    width:92%; max-width:750px; max-height:85vh; overflow-y:auto; box-shadow:var(--shadow);
+    animation:modalIn 0.3s ease;
+  }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.95) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
+  .modal-header { padding:18px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .modal-header h2 { font-size:15px; font-weight:600; }
+  .modal-body { padding:22px; }
+  .modal-footer { padding:14px 22px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:10px; }
+
+  .pdf-preview-table { width:100%; border-collapse:collapse; font-size:11px; margin-top:10px; }
+  .pdf-preview-table th {
+    text-align:left; padding:7px 9px; background:var(--bg-input);
+    color:var(--text-muted); font-weight:600; text-transform:uppercase; font-size:9px; letter-spacing:0.4px;
+  }
+  .pdf-preview-table td { padding:7px 9px; border-bottom:1px solid rgba(42,46,61,0.3); }
+  .pdf-preview-table input {
+    width:100%; padding:6px 8px; background:var(--bg-input);
+    border:1px solid var(--border); border-radius:6px;
+    color:var(--text); font-family:'JetBrains Mono',monospace; font-size:11px; outline:none;
+  }
+  .pdf-preview-table input:focus { border-color:var(--accent); }
+
+  .mapping-info {
+    background:rgba(74,124,255,0.08); border:1px solid rgba(74,124,255,0.2);
+    border-radius:var(--radius); padding:12px 14px; margin-bottom:14px;
+    font-size:12px; color:var(--accent-light); line-height:1.6;
+  }
+
+  .pdf-raw-preview {
+    background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius);
+    padding:12px; max-height:180px; overflow-y:auto;
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    color:var(--text-muted); line-height:1.8; white-space:pre-wrap; margin-bottom:14px;
+  }
+
+  /* SOUND TOGGLE */
+  .sound-toggle { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--text-muted); cursor:pointer; }
+  .sound-toggle input { display:none; }
+  .toggle-track { width:34px; height:18px; background:var(--border); border-radius:100px; position:relative; transition:background 0.2s; }
+  .sound-toggle input:checked + .toggle-track { background:var(--accent); }
+  .toggle-thumb { width:14px; height:14px; background:white; border-radius:50%; position:absolute; top:2px; left:2px; transition:transform 0.2s; }
+  .sound-toggle input:checked + .toggle-track .toggle-thumb { transform:translateX(16px); }
+
+  /* TOAST */
+  .toast-container { position:fixed; top:76px; right:20px; z-index:300; display:flex; flex-direction:column; gap:6px; }
+  .toast {
+    padding:10px 18px; border-radius:var(--radius); font-size:12px; font-weight:500;
+    animation:toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards; box-shadow:var(--shadow);
+  }
+  @keyframes toastIn { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+  @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateY(-8px)} }
+  .toast.success { background:var(--success); color:#0f1117; }
+  .toast.warning { background:var(--warning); color:#0f1117; }
+  .toast.danger { background:var(--danger); color:#0f1117; }
+  .toast.orange { background:var(--orange); color:#0f1117; }
+
+  /* RESPONSIVE */
+  @media (max-width:960px) {
+    .grid-layout { grid-template-columns:1fr; }
+    .stats-bar { grid-template-columns:repeat(3,1fr); }
+    .container { padding:14px; }
+    .header { padding:12px 16px; flex-wrap:wrap; gap:10px; }
+  }
+
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:100px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="logo-icon">📦</div>
+    <div>
+      <div class="header-title">Réception Marchandises</div>
+      <div class="header-subtitle">Narbonne Accessoires — Validation par scan</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <label class="sound-toggle">
+      🔊
+      <input type="checkbox" id="soundToggle" checked>
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+    </label>
+    <button class="btn btn-sm" onclick="exportDB()">💾 Base EAN</button>
+    <button class="btn btn-sm" onclick="importDB()">📂 Import base</button>
+    <input type="file" id="dbImportInput" accept=".json" style="display:none" onchange="handleDBImport(event)">
+    <button class="btn btn-sm btn-orange" onclick="showTarifModal()">💰 Catalogue / Tarif</button>
+    <input type="file" id="tarifImportInput" accept=".csv,.txt,.xlsx,.json" style="display:none" onchange="handleTarifImport(event)">
+    <button class="btn btn-sm btn-success" onclick="showLabelModal()">🏷️ Étiquettes</button>
+    <button class="btn btn-sm" onclick="exportReport()">📋 Écarts</button>
+    <button class="btn btn-sm btn-danger" onclick="resetAll()">↺ Reset</button>
+  </div>
+</header>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="container">
+  <!-- STATS -->
+  <div class="stats-bar" id="statsBar" style="display:none;">
+    <div class="stat-card"><div class="stat-value" id="statTotal" style="color:var(--text)">0</div><div class="stat-label">Attendus</div></div>
+    <div class="stat-card"><div class="stat-value" id="statScanned" style="color:var(--success)">0</div><div class="stat-label">Réceptionnés ✓</div></div>
+    <div class="stat-card"><div class="stat-value" id="statMissing" style="color:var(--warning)">0</div><div class="stat-label">Restants</div></div>
+    <div class="stat-card"><div class="stat-value" id="statNoEan" style="color:var(--orange)">0</div><div class="stat-label">Sans EAN connu</div></div>
+    <div class="stat-card"><div class="stat-value" id="statSurplus" style="color:var(--purple)">0</div><div class="stat-label">Hors commande</div></div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-container" id="progressContainer" style="display:none;">
+    <div class="progress-label"><span>Progression</span><strong id="progressPct">0%</strong></div>
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+  </div>
+
+  <div class="grid-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <!-- IMPORT -->
+      <div class="card">
+        <div class="card-header"><h3>📄 Importer bon de réception</h3></div>
+        <div class="card-body">
+          <div class="import-zone" id="importZone">
+            <input type="file" accept=".pdf,.csv,.txt" id="fileInput" onchange="handleFileImport(event)">
+            <div class="import-icon">📄</div>
+            <div class="import-label">Glisser un PDF ou cliquer</div>
+            <div class="import-hint">Format Narbonne Accessoires (PDF, CSV)</div>
+          </div>
+          <div style="text-align:center; margin:10px 0 6px; font-size:11px; color:var(--text-dim);">— ou —</div>
+          <button class="btn btn-sm" style="width:100%" onclick="showManualModal()">✏️ Saisie manuelle</button>
+        </div>
+      </div>
+
+      <!-- SCAN -->
+      <div class="card">
+        <div class="card-header"><h3>🔫 Scanner un article</h3></div>
+        <div class="card-body">
+          <div class="scan-input-wrapper">
+            <span class="scan-icon">⎸</span>
+            <input type="text" class="scan-input" id="scanInput" placeholder="Douchette ou saisie manuelle..." autofocus onkeydown="handleScan(event)">
+            <button class="btn btn-primary btn-icon" id="camBtn" onclick="toggleCamera()" title="Scanner avec la caméra">📷</button>
+          </div>
+          <!-- Camera viewport -->
+          <div id="cameraContainer" style="display:none; margin-top:10px; position:relative; border-radius:var(--radius); overflow:hidden; border:2px solid var(--accent);">
+            <video id="cameraVideo" autoplay playsinline muted style="width:100%; max-height:260px; object-fit:cover; display:block; background:#000;"></video>
+            <canvas id="cameraCanvas" style="display:none;"></canvas>
+            <div id="cameraScanLine" style="position:absolute; top:50%; left:10%; width:80%; height:2px; background:var(--accent); box-shadow:0 0 8px var(--accent); opacity:0.8; animation:scanLineMove 2s ease-in-out infinite;"></div>
+            <div style="position:absolute; bottom:8px; left:0; right:0; text-align:center;">
+              <span style="background:rgba(0,0,0,0.6); color:white; padding:4px 12px; border-radius:20px; font-size:11px;">Visez le code-barres</span>
+            </div>
+          </div>
+          <div class="scan-feedback" id="scanFeedback"></div>
+          <!-- Association panel for unknown scans -->
+          <div class="assoc-panel" id="assocPanel">
+            <h4>🔗 Associer ce code à un article du bon :</h4>
+            <div id="assocList"></div>
+            <button class="btn btn-sm" style="margin-top:8px; width:100%;" onclick="cancelAssoc()">✕ Ignorer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DB INFO -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🗄️ Base EAN locale</h3>
+          <span style="font-size:10px; color:var(--text-dim)" id="dbCount">0 articles</span>
+        </div>
+        <div class="card-body">
+          <div class="db-info">
+            La base se construit automatiquement à chaque association scan ↔ article. Elle est sauvegardée dans le navigateur et réutilisée sur les prochains bons.
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG -->
+      <div class="card">
+        <div class="card-header">
+          <h3>📝 Historique</h3>
+          <span style="font-size:10px; color:var(--text-dim)" id="scanCountLabel">0 scans</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div class="scan-log" id="scanLog">
+            <div style="padding:16px; text-align:center; color:var(--text-dim); font-size:11px;">Aucun scan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN TABLE -->
+    <div class="main-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>📋 Articles du bon</h3>
+          <div class="filter-tabs" id="filterTabs" style="display:none;">
+            <button class="filter-tab active" data-filter="all" onclick="setFilter('all')">Tous <span class="tab-count" id="fAll">0</span></button>
+            <button class="filter-tab" data-filter="pending" onclick="setFilter('pending')">En attente <span class="tab-count" id="fPending">0</span></button>
+            <button class="filter-tab" data-filter="complete" onclick="setFilter('complete')">Complets <span class="tab-count" id="fComplete">0</span></button>
+            <button class="filter-tab" data-filter="issue" onclick="setFilter('issue')">Écarts <span class="tab-count" id="fIssue">0</span></button>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon">📦</div>
+            <h3>Aucun bon chargé</h3>
+            <p>Importez un bon de réception PDF (format Narbonne Accessoires) pour commencer le pointage par scan.</p>
+          </div>
+          <div class="table-wrapper" id="tableWrapper" style="display:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Réf NASA</th>
+                  <th>Désignation</th>
+                  <th>EAN / Code-barres</th>
+                  <th style="text-align:center">Prix TTC</th>
+                  <th style="text-align:center">Att.</th>
+                  <th style="text-align:center">Reçu</th>
+                  <th style="text-align:center">Écart</th>
+                  <th>Statut</th>
+                  <th style="width:50px"></th>
+                </tr>
+              </thead>
+              <tbody id="articlesTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: PDF Preview -->
+<div class="modal-overlay" id="pdfModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>📄 Aperçu du bon de réception</h2>
+      <button class="btn btn-sm btn-icon" onclick="closePdfModal()">✕</button>
+    </div>
+    <div class="modal-body" id="pdfModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closePdfModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmPdfImport()">✓ Valider l'import</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Manual -->
+<div class="modal-overlay" id="manualModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>✏️ Ajouter des articles</h2>
+      <button class="btn btn-sm btn-icon" onclick="closeManualModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="mapping-info">Saisissez les articles. Le champ EAN est optionnel — il pourra être complété par scan.</div>
+      <div id="manualEntries"></div>
+      <button class="btn btn-sm" style="margin-top:8px;" onclick="addManualRow()">+ Ligne</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeManualModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmManualImport()">✓ Valider</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Report -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>📋 Rapport de réception</h2>
+      <button class="btn btn-sm btn-icon" onclick="closeReportModal()">✕</button>
+    </div>
+    <div class="modal-body" id="reportBody"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeReportModal()">Fermer</button>
+      <button class="btn btn-primary" onclick="downloadReport()">⬇ CSV</button>
+      <button class="btn btn-success" onclick="printReport()">🖨 Imprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Tarif / Catalogue Import -->
+<div class="modal-overlay" id="tarifModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>💰 Catalogue & Tarif</h2>
+      <button class="btn btn-sm btn-icon" onclick="closeTarifModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="mapping-info">
+        <strong>Catalogue JSON</strong> (fichier <code>catalogue_narbonne.json</code>) : charge tout le référentiel produits (réf, désignation, prix). 
+        Il associe automatiquement les prix aux articles du bon en cours.<br><br>
+        <strong>Fichier CSV</strong> : format <code>Référence;Prix TTC</code> — pour un import rapide de prix.
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+        <div class="import-zone" style="padding:20px 14px;">
+          <input type="file" accept=".json" onchange="handleCatalogJson(event)">
+          <div class="import-icon">📚</div>
+          <div class="import-label">Catalogue JSON</div>
+          <div class="import-hint">catalogue_narbonne.json</div>
+        </div>
+        <div class="import-zone" style="padding:20px 14px;">
+          <input type="file" accept=".csv,.txt" onchange="handleTarifFile(event)">
+          <div class="import-icon">💰</div>
+          <div class="import-label">Fichier tarif CSV</div>
+          <div class="import-hint">Réf;Prix TTC</div>
+        </div>
+      </div>
+      <div id="catalogInfo" style="display:none; margin-bottom:14px;"></div>
+      <div id="tarifPreview"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeTarifModal()">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Labels -->
+<div class="modal-overlay" id="labelModal">
+  <div class="modal" style="max-width:850px;">
+    <div class="modal-header">
+      <h2>🏷️ Impression d'étiquettes</h2>
+      <button class="btn btn-sm btn-icon" onclick="closeLabelModal()">✕</button>
+    </div>
+    <div class="modal-body" id="labelModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeLabelModal()">Fermer</button>
+      <button class="btn btn-success" onclick="printLabels()">🖨 Imprimer les étiquettes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden print frame -->
+<iframe id="printFrame" style="display:none;"></iframe>
+
+<script>
+// ========================================================
+// STATE
+// ========================================================
+let articles = [];       // { id, refNasa, description, ean, eanList:[], expected, received, commande }
+let surplusArticles = []; // { barcode, received, timestamp }
+let scanHistory = [];
+let currentFilter = 'all';
+let totalScans = 0;
+let pendingAssocCode = null; // barcode waiting for association
+
+// ========================================================
+// EAN DATABASE (localStorage)
+// ========================================================
+const DB_KEY = 'narbonne_ean_db';
+
+function loadDB() {
+  try {
+    return JSON.parse(localStorage.getItem(DB_KEY) || '{}');
+  } catch { return {}; }
+}
+
+function saveDB(db) {
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
+  updateDBCount();
+}
+
+function addToDB(ean, refNasa, description) {
+  const db = loadDB();
+  db[ean] = { refNasa, description, addedAt: new Date().toISOString() };
+  saveDB(db);
+}
+
+function lookupEAN(ean) {
+  const db = loadDB();
+  return db[ean] || null;
+}
+
+function lookupByRef(refNasa) {
+  const db = loadDB();
+  for (const [ean, info] of Object.entries(db)) {
+    if (info.refNasa === refNasa) return { ean, ...info };
+  }
+  return null;
+}
+
+function updateDBCount() {
+  const db = loadDB();
+  const count = Object.keys(db).length;
+  document.getElementById('dbCount').textContent = `${count} article${count > 1 ? 's' : ''}`;
+}
+
+function exportDB() {
+  const db = loadDB();
+  const count = Object.keys(db).length;
+  if (count === 0) { showToast('Base vide', 'warning'); return; }
+  const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `base-ean-narbonne-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  showToast(`Base exportée (${count} articles)`, 'success');
+}
+
+function importDB() {
+  document.getElementById('dbImportInput').click();
+}
+
+function handleDBImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const imported = JSON.parse(reader.result);
+      const db = loadDB();
+      let added = 0;
+      for (const [ean, info] of Object.entries(imported)) {
+        if (!db[ean]) { db[ean] = info; added++; }
+      }
+      saveDB(db);
+      showToast(`${added} nouveaux articles ajoutés à la base`, 'success');
+      // Re-match current articles
+      rematchArticlesWithDB();
+    } catch (err) {
+      showToast('Erreur: fichier JSON invalide', 'danger');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function rematchArticlesWithDB() {
+  const db = loadDB();
+  articles.forEach(a => {
+    if (!a.eanList || a.eanList.length === 0) {
+      // Try to find EAN by ref
+      for (const [ean, info] of Object.entries(db)) {
+        if (info.refNasa === a.refNasa) {
+          a.eanList = a.eanList || [];
+          if (!a.eanList.includes(ean)) a.eanList.push(ean);
+          if (!a.ean) a.ean = ean;
+        }
+      }
+    }
+  });
+  renderAll();
+}
+
+// ========================================================
+// AUDIO
+// ========================================================
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function playBeep(type) {
+  if (!document.getElementById('soundToggle').checked) return;
+  if (!audioCtx) audioCtx = new AudioCtx();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  g.gain.value = 0.13;
+  const t = audioCtx.currentTime;
+  if (type==='success') { o.frequency.value=880; o.type='sine'; g.gain.setValueAtTime(0.13,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.12); o.start(); o.stop(t+0.12); }
+  else if (type==='complete') {
+    o.frequency.value=660; o.type='sine'; g.gain.setValueAtTime(0.13,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.35); o.start();
+    setTimeout(()=>{const o2=audioCtx.createOscillator(),g2=audioCtx.createGain();o2.connect(g2);g2.connect(audioCtx.destination);o2.frequency.value=880;o2.type='sine';g2.gain.setValueAtTime(0.13,audioCtx.currentTime);g2.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.25);o2.start();o2.stop(audioCtx.currentTime+0.25);},120);
+    o.stop(t+0.12);
+  }
+  else if (type==='warning') { o.frequency.value=440; o.type='triangle'; g.gain.setValueAtTime(0.17,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.25); o.start(); o.stop(t+0.25); }
+  else if (type==='assoc') { o.frequency.value=550; o.type='sine'; g.gain.setValueAtTime(0.1,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.4); o.start(); o.stop(t+0.4); }
+  else if (type==='error') { o.frequency.value=220; o.type='sawtooth'; g.gain.setValueAtTime(0.1,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.4); o.start(); o.stop(t+0.4); }
+}
+
+function showToast(msg, type='success') {
+  const c=document.getElementById('toastContainer'), t=document.createElement('div');
+  t.className=`toast ${type}`; t.textContent=msg; c.appendChild(t);
+  setTimeout(()=>t.remove(), 3000);
+}
+
+// ========================================================
+// FILE IMPORT
+// ========================================================
+const importZone = document.getElementById('importZone');
+importZone.addEventListener('dragover', e=>{e.preventDefault();importZone.classList.add('drag-over');});
+importZone.addEventListener('dragleave', ()=>importZone.classList.remove('drag-over'));
+importZone.addEventListener('drop', e=>{e.preventDefault();importZone.classList.remove('drag-over');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
+
+function handleFileImport(e) { if(e.target.files.length) handleFile(e.target.files[0]); }
+
+async function handleFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (ext==='pdf') await parsePDF(file);
+  else if (ext==='csv'||ext==='txt') await parseCSV(file);
+  else showToast('Format non supporté','danger');
+}
+
+async function parsePDF(file) {
+  try {
+    const buf = await file.arrayBuffer();
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+    let allItems = [];
+    
+    for (let p=1; p<=pdf.numPages; p++) {
+      const page = await pdf.getPage(p);
+      const content = await page.getTextContent();
+      allItems = allItems.concat(content.items);
+    }
+    
+    // Extract full text for display
+    const fullText = allItems.map(i=>i.str).join(' ');
+    
+    // ---- PARSE NARBONNE ACCESSOIRES BON FORMAT ----
+    // Strategy: find patterns like:
+    //   Réf NASA: 70431
+    //   Designation: CLIM EZA 4 2700W BLANC  
+    //   EAN: 37006289Z10968
+    //   Pour CDC132-25...
+    //   Qté: 1
+    
+    const text = allItems.map(i => i.str.trim()).filter(s => s.length > 0);
+    const joined = text.join('|');
+    
+    // Try to extract structured data
+    const extracted = [];
+    
+    // Method 1: Look for ref NASA numbers and surrounding context
+    // From the PDF we can see: refNasa, designation, EAN, quantity, price
+    // The format has columns: Réf NASA | Désignation | Coût stock unitaire | Qté Attendue | Qté Récepté | Code | Clé | Commentaire
+    
+    // Let's look for known patterns
+    // Ref NASA: typically 5-6 digit numbers
+    // EAN: 13 digits starting with 3 (or other)
+    // Designations: text like "CLIM EZA..."
+    // CDC codes: CDC132-25...
+    
+    const refNasaPattern = /\b(\d{5,6})\b/g;
+    const eanPattern = /\b(\d{13})\b/g;
+    const cdcPattern = /\b(CDC\d+-\d+)\b/gi;
+    const qtyPattern = /\b([1-9]\d{0,2})\b/;
+    
+    // Extract EANs
+    const eans = [];
+    const eanRegex = /\b(\d{13})\b/g;
+    let m;
+    while ((m = eanRegex.exec(joined)) !== null) {
+      eans.push(m[1]);
+    }
+    
+    // Extract NASA refs (5-6 digit refs, but not EANs or prices)
+    const nasaRefs = [];
+    // Looking at the PDF structure, refs like 70431 appear
+    
+    // Better approach: parse line by line looking for article blocks
+    // From the image, the format per article line seems to be:
+    // refNASA | Description | ... | Qté | Prix | ...
+    // EAN: XXXXXXXXXXXXX
+    // pour CDC...
+    
+    // Let's gather text items by Y position to reconstruct lines
+    const lineMap = {};
+    allItems.forEach(item => {
+      const y = Math.round(item.transform[5]); // Y position
+      if (!lineMap[y]) lineMap[y] = [];
+      lineMap[y].push({ x: item.transform[4], text: item.str.trim() });
+    });
+    
+    // Sort lines by Y (descending for PDF coordinate system)
+    const sortedLines = Object.entries(lineMap)
+      .sort((a,b) => Number(b[0]) - Number(a[0]))
+      .map(([y, items]) => ({
+        y: Number(y),
+        items: items.sort((a,b) => a.x - b.x),
+        text: items.sort((a,b) => a.x - b.x).map(i => i.text).join(' ')
+      }));
+    
+    // Debug: build readable text
+    let debugText = sortedLines.map(l => l.text).join('\n');
+    
+    // Now parse: look for lines containing NASA refs (5-6 digits at start)
+    // followed by descriptions, then EAN lines
+    let currentArticle = null;
+    
+    for (const line of sortedLines) {
+      const t = line.text;
+      
+      // Check for EAN line
+      const eanMatch = t.match(/EAN\s*:?\s*(\d{13})/i);
+      if (eanMatch && currentArticle) {
+        currentArticle.ean = eanMatch[1];
+        continue;
+      }
+      
+      // Check for standalone EAN (13 digits)
+      const standaloneEan = t.match(/^\s*(\d{13})\s*$/);
+      if (standaloneEan && currentArticle) {
+        currentArticle.ean = standaloneEan[1];
+        continue;
+      }
+      
+      // Check for CDC reference line
+      const cdcMatch = t.match(/(CDC\d+-\d+)/i);
+      if (cdcMatch && currentArticle && !currentArticle.commande) {
+        currentArticle.commande = cdcMatch[1];
+      }
+      
+      // Check for article line: starts with 5-6 digit NASA ref
+      // Pattern: refNasa followed by description and quantity/price
+      const articleMatch = t.match(/^(\d{5,6})\s+(.+)/);
+      if (articleMatch) {
+        const refNasa = articleMatch[1];
+        let rest = articleMatch[2];
+        
+        // Try to extract quantity and price from the rest
+        // Look for patterns like "899,00 1" or "1 899,00"
+        // Quantities are usually small numbers (1-99)
+        // Prices have decimals with comma
+        
+        let qty = 1;
+        let description = rest;
+        
+        // Extract price patterns (XXX,XX or X XXX,XX)
+        const priceRegex = /(\d[\d\s]*,\d{2})/g;
+        const prices = [];
+        let pm;
+        while ((pm = priceRegex.exec(rest)) !== null) {
+          prices.push({ value: pm[1], index: pm.index });
+        }
+        
+        // Remove prices from description
+        if (prices.length > 0) {
+          description = rest;
+          // Remove from right to left to preserve indices
+          for (let i = prices.length - 1; i >= 0; i--) {
+            description = description.substring(0, prices[i].index) + description.substring(prices[i].index + prices[i].value.length);
+          }
+        }
+        
+        // Look for standalone small numbers as quantities
+        const parts = description.trim().split(/\s+/);
+        // Check last few parts for quantity
+        for (let i = parts.length - 1; i >= Math.max(0, parts.length - 3); i--) {
+          if (/^\d{1,2}$/.test(parts[i]) && parseInt(parts[i]) >= 1 && parseInt(parts[i]) <= 99) {
+            qty = parseInt(parts[i]);
+            parts.splice(i, 1);
+            break;
+          }
+        }
+        description = parts.join(' ').replace(/\s{2,}/g, ' ').trim();
+        
+        // Clean up description (remove Gsm, Clé code, etc.)
+        description = description.replace(/Gsm\s*:\s*[\d\s]+/gi, '').trim();
+        description = description.replace(/Clé\s+code\s*:?\s*[\d.,]+/gi, '').trim();
+        description = description.replace(/\s+/g, ' ').trim();
+        
+        // Only add if description looks like a product name (not headers)
+        if (description.length > 3 && !/^(Réf|Désignation|Coût|RECEPTION|LITIGE|Commande|Fournisseur|unitaire|Attendue|Récepté)/i.test(description)) {
+          if (currentArticle && currentArticle.description) {
+            extracted.push(currentArticle);
+          }
+          currentArticle = {
+            refNasa: refNasa,
+            description: description,
+            ean: '',
+            expected: qty,
+            commande: ''
+          };
+        }
+      }
+      
+      // Also check for "pour" + CDC on same line as article
+      if (currentArticle && cdcMatch && !currentArticle.commande) {
+        currentArticle.commande = cdcMatch[1];
+      }
+    }
+    
+    // Don't forget last article
+    if (currentArticle && currentArticle.description) {
+      extracted.push(currentArticle);
+    }
+    
+    // Also try to find any EAN patterns near NASA refs in original sequence
+    // Fallback: look for EAN patterns globally and try to match
+    if (extracted.length > 0 && extracted.some(e => !e.ean)) {
+      const globalEans = [];
+      const ge = /\b(\d{13})\b/g;
+      let gem;
+      while ((gem = ge.exec(joined)) !== null) {
+        globalEans.push(gem[1]);
+      }
+      // Assign unmatched EANs to articles without EAN in order
+      let eanIdx = 0;
+      extracted.forEach(e => {
+        if (!e.ean && eanIdx < globalEans.length) {
+          e.ean = globalEans[eanIdx++];
+        }
+      });
+    }
+    
+    // Try to enrich from local DB
+    const db = loadDB();
+    extracted.forEach(e => {
+      if (!e.ean) {
+        for (const [ean, info] of Object.entries(db)) {
+          if (info.refNasa === e.refNasa) {
+            e.ean = ean;
+            break;
+          }
+        }
+      }
+    });
+    
+    showPdfPreview(debugText, file.name, extracted);
+    
+  } catch(err) {
+    showToast('Erreur PDF: ' + err.message, 'danger');
+    console.error(err);
+  }
+}
+
+async function parseCSV(file) {
+  const text = await file.text();
+  const lines = text.split('\n').filter(l=>l.trim());
+  const parsed = [];
+  for (const line of lines) {
+    const parts = line.split(/[;,\t]/);
+    if (parts.length >= 2) {
+      const ref = parts[0].trim().replace(/['"]/g,'');
+      const desc = parts[1]?parts[1].trim().replace(/['"]/g,''):'';
+      const ean = parts[2]?parts[2].trim().replace(/['"]/g,''):'';
+      const qty = parts[3]?parseInt(parts[3].trim())||1:1;
+      if (ref) parsed.push({refNasa:ref, description:desc, ean:ean, expected:qty, commande:'', price:''});
+    }
+  }
+  if (parsed.length > 0) { loadArticles(parsed); showToast(`${parsed.length} articles importés`,'success'); }
+  else showToast('Aucun article trouvé','warning');
+}
+
+function showPdfPreview(rawText, filename, extracted) {
+  const body = document.getElementById('pdfModalBody');
+  const eanCount = extracted.filter(e => e.ean).length;
+  
+  body.innerHTML = `
+    <div class="mapping-info">
+      <strong>📄 ${filename}</strong><br>
+      ${extracted.length} article(s) détecté(s) — ${eanCount} avec EAN, ${extracted.length - eanCount} sans EAN<br>
+      <small>Les articles sans EAN pourront être associés par scan (mode apprentissage).</small>
+    </div>
+    <details style="margin-bottom:14px;">
+      <summary style="cursor:pointer; font-size:11px; color:var(--text-muted);">🔍 Texte brut du PDF</summary>
+      <div class="pdf-raw-preview">${rawText.substring(0,3000)}${rawText.length>3000?'\n...(tronqué)':''}</div>
+    </details>
+    <table class="pdf-preview-table">
+      <thead><tr><th>Réf NASA</th><th>Désignation</th><th>EAN</th><th>Cde</th><th style="width:55px">Qté</th><th style="width:36px"></th></tr></thead>
+      <tbody id="pdfPreviewBody">
+        ${extracted.map((e,i) => `
+          <tr data-idx="${i}">
+            <td><input type="text" value="${e.refNasa}" data-field="refNasa" style="width:70px"></td>
+            <td><input type="text" value="${e.description}" data-field="description"></td>
+            <td><input type="text" value="${e.ean}" data-field="ean" placeholder="Via scan..." style="${e.ean ? 'color:var(--success)' : 'color:var(--orange)'}"></td>
+            <td><input type="text" value="${e.commande||''}" data-field="commande" style="width:140px; font-size:10px;"></td>
+            <td><input type="number" value="${e.expected}" min="1" data-field="expected" style="text-align:center; width:45px"></td>
+            <td><button class="btn btn-sm btn-icon" onclick="this.closest('tr').remove()" style="padding:3px 5px; color:var(--danger);">✕</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <button class="btn btn-sm" style="margin-top:8px;" onclick="addPdfPreviewRow()">+ Ajouter ligne</button>
+  `;
+  
+  document.getElementById('pdfModal').classList.add('active');
+}
+
+function addPdfPreviewRow() {
+  const tbody = document.getElementById('pdfPreviewBody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" value="" data-field="refNasa" placeholder="Réf" style="width:70px"></td>
+    <td><input type="text" value="" data-field="description" placeholder="Description"></td>
+    <td><input type="text" value="" data-field="ean" placeholder="EAN (optionnel)"></td>
+    <td><input type="text" value="" data-field="commande" placeholder="CDC..." style="width:140px; font-size:10px;"></td>
+    <td><input type="number" value="1" min="1" data-field="expected" style="text-align:center; width:45px"></td>
+    <td><button class="btn btn-sm btn-icon" onclick="this.closest('tr').remove()" style="padding:3px 5px; color:var(--danger);">✕</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+function confirmPdfImport() {
+  const rows = document.querySelectorAll('#pdfPreviewBody tr');
+  const imported = [];
+  rows.forEach(row => {
+    const refNasa = row.querySelector('[data-field="refNasa"]').value.trim();
+    const description = row.querySelector('[data-field="description"]').value.trim();
+    const ean = row.querySelector('[data-field="ean"]').value.trim();
+    const commande = row.querySelector('[data-field="commande"]')?.value.trim() || '';
+    const expected = parseInt(row.querySelector('[data-field="expected"]').value) || 1;
+    if (refNasa || description) {
+      imported.push({ refNasa, description, ean, expected, commande, price: '' });
+    }
+  });
+  if (imported.length === 0) { showToast('Aucun article','warning'); return; }
+  
+  // If EAN present, add to DB
+  imported.forEach(item => {
+    if (item.ean && item.refNasa) {
+      addToDB(item.ean, item.refNasa, item.description);
+    }
+  });
+  
+  loadArticles(imported);
+  closePdfModal();
+  showToast(`${imported.length} articles importés`,'success');
+}
+
+function closePdfModal() { document.getElementById('pdfModal').classList.remove('active'); }
+
+// MANUAL MODAL
+function showManualModal() {
+  document.getElementById('manualEntries').innerHTML = '';
+  addManualRow();
+  document.getElementById('manualModal').classList.add('active');
+}
+function closeManualModal() { document.getElementById('manualModal').classList.remove('active'); }
+
+function addManualRow() {
+  const c = document.getElementById('manualEntries');
+  const d = document.createElement('div');
+  d.style = 'display:flex; gap:6px; margin-bottom:6px; align-items:center;';
+  d.innerHTML = `
+    <input type="text" placeholder="Réf NASA" style="flex:1; padding:8px; background:var(--bg-input); border:1px solid var(--border); border-radius:7px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:12px;">
+    <input type="text" placeholder="Désignation" style="flex:2.5; padding:8px; background:var(--bg-input); border:1px solid var(--border); border-radius:7px; color:var(--text); font-size:12px;">
+    <input type="text" placeholder="EAN (optionnel)" style="flex:1.5; padding:8px; background:var(--bg-input); border:1px solid var(--border); border-radius:7px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:12px;">
+    <input type="number" placeholder="Qté" min="1" value="1" style="flex:0.5; padding:8px; background:var(--bg-input); border:1px solid var(--border); border-radius:7px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:12px; text-align:center;">
+    <button class="btn btn-sm btn-icon" onclick="this.parentElement.remove()" style="padding:6px; color:var(--danger); flex-shrink:0;">✕</button>
+  `;
+  c.appendChild(d);
+}
+
+function confirmManualImport() {
+  const entries = document.querySelectorAll('#manualEntries > div');
+  const imported = [];
+  entries.forEach(entry => {
+    const inputs = entry.querySelectorAll('input');
+    const ref = inputs[0].value.trim();
+    const desc = inputs[1].value.trim();
+    const ean = inputs[2].value.trim();
+    const qty = parseInt(inputs[3].value) || 1;
+    if (ref || desc) imported.push({refNasa:ref, description:desc, ean:ean, expected:qty, commande:'', price:''});
+  });
+  if (imported.length===0) { showToast('Rien à ajouter','warning'); return; }
+  imported.forEach(item => { if(item.ean && item.refNasa) addToDB(item.ean, item.refNasa, item.description); });
+  loadArticles(imported);
+  closeManualModal();
+  showToast(`${imported.length} articles ajoutés`,'success');
+}
+
+// ========================================================
+// LOAD ARTICLES
+// ========================================================
+function loadArticles(items) {
+  const db = loadDB();
+  
+  items.forEach(item => {
+    // Try to find existing article
+    const existing = articles.find(a => a.refNasa === item.refNasa);
+    if (existing) {
+      existing.expected += item.expected;
+      if (item.ean && !existing.eanList.includes(item.ean)) existing.eanList.push(item.ean);
+      if (item.ean && !existing.ean) existing.ean = item.ean;
+    } else {
+      const eanList = item.ean ? [item.ean] : [];
+      // Check DB for known EANs
+      if (!item.ean) {
+        for (const [ean, info] of Object.entries(db)) {
+          if (info.refNasa === item.refNasa) {
+            eanList.push(ean);
+            if (!item.ean) item.ean = ean;
+          }
+        }
+      }
+      articles.push({
+        id: 'art_' + Date.now() + '_' + Math.random().toString(36).substr(2,5),
+        refNasa: item.refNasa,
+        description: item.description,
+        ean: item.ean || '',
+        eanList: eanList,
+        expected: item.expected,
+        received: 0,
+        commande: item.commande || '',
+        price: item.price || ''
+      });
+    }
+  });
+  
+  // Auto-match with catalog if loaded
+  matchArticlesWithCatalog();
+  renderAll();
+  document.getElementById('scanInput').focus();
+}
+
+// ========================================================
+// SCAN
+// ========================================================
+function handleScan(e) {
+  if (e.key !== 'Enter') return;
+  const code = e.target.value.trim();
+  if (!code) return;
+  e.target.value = '';
+  processScan(code);
+}
+
+function processScan(code) {
+  totalScans++;
+  const time = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  
+  // Hide previous association panel
+  hideAssocPanel();
+  
+  // 1. Check if code matches any article's EAN or eanList
+  let article = articles.find(a => a.ean === code || (a.eanList && a.eanList.includes(code)));
+  
+  // 2. If not found, check if code matches a refNasa directly
+  if (!article) {
+    article = articles.find(a => a.refNasa === code);
+  }
+  
+  // 3. Check DB
+  if (!article) {
+    const dbEntry = lookupEAN(code);
+    if (dbEntry) {
+      article = articles.find(a => a.refNasa === dbEntry.refNasa);
+      if (article) {
+        // Update the article's EAN list
+        if (!article.eanList.includes(code)) article.eanList.push(code);
+        if (!article.ean) article.ean = code;
+      }
+    }
+  }
+  
+  if (article) {
+    // Known article - increment
+    article.received++;
+    const diff = article.received - article.expected;
+    
+    if (article.received <= article.expected) {
+      const complete = article.received === article.expected;
+      showFeedback('success',
+        `✓ ${article.description || article.refNasa}`,
+        `${article.received} / ${article.expected}${complete ? ' — COMPLET !' : ''}`
+      );
+      flashInput(complete ? 'success' : 'success');
+      playBeep(complete ? 'complete' : 'success');
+      addLog(time, code, 'ok', `${article.received}/${article.expected}`);
+      if (complete) showToast(`✓ ${article.description||article.refNasa} — Complet !`,'success');
+    } else {
+      showFeedback('danger',
+        `⚠️ SURPLUS — ${article.description||article.refNasa}`,
+        `Reçu ${article.received} / Attendu ${article.expected} → +${diff} en trop`
+      );
+      flashInput('danger');
+      playBeep('error');
+      addLog(time, code, 'over', `${article.received}/${article.expected} (+${diff})`);
+    }
+  } else {
+    // Unknown code — check if we have unmatched articles
+    const unmatchedArticles = articles.filter(a => (!a.ean || a.ean === '') && a.eanList.length === 0 && a.received < a.expected);
+    
+    if (unmatchedArticles.length > 0) {
+      // Show association panel
+      pendingAssocCode = code;
+      showFeedback('orange',
+        `🔗 Code inconnu : ${code}`,
+        `Sélectionnez l'article correspondant ci-dessous pour l'associer`
+      );
+      flashInput('orange');
+      playBeep('assoc');
+      showAssocPanel(code, unmatchedArticles);
+      addLog(time, code, 'assoc', 'À associer...');
+    } else {
+      // True surplus — no unmatched articles
+      const existing = surplusArticles.find(s => s.barcode === code);
+      if (existing) existing.received++;
+      else surplusArticles.push({barcode:code, received:1, timestamp:time});
+      
+      showFeedback('purple',
+        `❓ Article hors commande`,
+        `Code ${code} — non trouvé dans le bon ni dans la base`
+      );
+      flashInput('purple');
+      playBeep('warning');
+      addLog(time, code, 'extra', 'Hors commande');
+    }
+  }
+  
+  renderAll();
+  document.getElementById('scanInput').focus();
+}
+
+function showAssocPanel(code, unmatchedArticles) {
+  const panel = document.getElementById('assocPanel');
+  const list = document.getElementById('assocList');
+  
+  // Also show ALL articles (not just unmatched) but highlight unmatched
+  const allUnreceived = articles.filter(a => a.received < a.expected);
+  
+  list.innerHTML = allUnreceived.map(a => {
+    const hasEan = a.ean || a.eanList.length > 0;
+    return `
+      <div class="assoc-line" onclick="associateCode('${code}','${a.id}')">
+        <span class="assoc-ref">${a.refNasa}</span>
+        <span class="assoc-desc">${a.description} ${hasEan ? '<span style="font-size:10px;color:var(--success);">(EAN connu)</span>' : '<span style="font-size:10px;color:var(--orange);">(sans EAN)</span>'}</span>
+        <span class="assoc-qty">${a.received}/${a.expected}</span>
+      </div>
+    `;
+  }).join('');
+  
+  panel.classList.add('visible');
+}
+
+function associateCode(code, articleId) {
+  const article = articles.find(a => a.id === articleId);
+  if (!article) return;
+  
+  // Save association to DB
+  addToDB(code, article.refNasa, article.description);
+  
+  // Update article
+  if (!article.eanList.includes(code)) article.eanList.push(code);
+  if (!article.ean) article.ean = code;
+  
+  // Count as received
+  article.received++;
+  
+  const time = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const complete = article.received === article.expected;
+  
+  showFeedback('success',
+    `🔗 Associé + validé : ${article.description}`,
+    `EAN ${code} → Réf ${article.refNasa} | ${article.received}/${article.expected}${complete?' — COMPLET !':''}`
+  );
+  flashInput('success');
+  playBeep(complete ? 'complete' : 'success');
+  
+  // Update last log entry
+  addLog(time, code, 'ok', `→ ${article.refNasa} (${article.received}/${article.expected})`);
+  
+  showToast(`🔗 ${code} associé à ${article.refNasa}`, 'orange');
+  if (complete) showToast(`✓ ${article.description} — Complet !`, 'success');
+  
+  hideAssocPanel();
+  pendingAssocCode = null;
+  renderAll();
+  document.getElementById('scanInput').focus();
+}
+
+function cancelAssoc() {
+  if (pendingAssocCode) {
+    const existing = surplusArticles.find(s => s.barcode === pendingAssocCode);
+    if (existing) existing.received++;
+    else surplusArticles.push({barcode:pendingAssocCode, received:1, timestamp:new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})});
+    renderAll();
+  }
+  hideAssocPanel();
+  pendingAssocCode = null;
+  document.getElementById('scanInput').focus();
+}
+
+function hideAssocPanel() {
+  document.getElementById('assocPanel').classList.remove('visible');
+}
+
+function flashInput(type) {
+  const input = document.getElementById('scanInput');
+  input.classList.add('flash-'+type);
+  setTimeout(() => input.classList.remove('flash-'+type), 600);
+}
+
+function showFeedback(type, title, text) {
+  const fb = document.getElementById('scanFeedback');
+  fb.className = `scan-feedback visible ${type}`;
+  fb.innerHTML = `<div class="feedback-text"><strong>${title}</strong>${text}</div>`;
+  clearTimeout(fb._t);
+  fb._t = setTimeout(() => fb.classList.remove('visible'), 5000);
+}
+
+function addLog(time, code, type, info) {
+  const log = document.getElementById('scanLog');
+  if (totalScans === 1) log.innerHTML = '';
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `
+    <span class="log-time">${time}</span>
+    <span class="log-dot ${type}"></span>
+    <span class="log-code">${code.length > 15 ? code.substring(0,15)+'…' : code}</span>
+    <span style="color:var(--text-muted); font-size:10px; flex:1;">${info}</span>
+  `;
+  log.insertBefore(entry, log.firstChild);
+  scanHistory.unshift({time,code,type,info});
+  document.getElementById('scanCountLabel').textContent = `${totalScans} scans`;
+}
+
+// ========================================================
+// INLINE EAN INPUT (manual code entry)
+// ========================================================
+function showInlineEanInput(articleId, el) {
+  // Replace the badge with an input field
+  const td = el.closest('td');
+  td.innerHTML = `
+    <div style="display:flex; gap:4px; align-items:center;">
+      <input type="text" id="eanInput_${articleId}" placeholder="Code..." 
+        style="width:110px; padding:5px 8px; background:var(--bg-input); border:1px solid var(--orange); border-radius:6px;
+        color:var(--text); font-family:'JetBrains Mono',monospace; font-size:12px; outline:none;"
+        onkeydown="if(event.key==='Enter') saveInlineEan('${articleId}')"
+        autofocus>
+      <button class="btn btn-sm btn-icon" onclick="saveInlineEan('${articleId}')" 
+        style="padding:4px 7px; background:var(--success); border-color:var(--success); color:#0f1117; font-size:11px;">✓</button>
+      <button class="btn btn-sm btn-icon" onclick="renderAll()" 
+        style="padding:4px 7px; font-size:11px; color:var(--text-dim);">✕</button>
+    </div>
+  `;
+  document.getElementById('eanInput_' + articleId).focus();
+}
+
+function saveInlineEan(articleId) {
+  const input = document.getElementById('eanInput_' + articleId);
+  if (!input) return;
+  const code = input.value.trim();
+  if (!code) { showToast('Code vide', 'warning'); return; }
+  
+  const article = articles.find(a => a.id === articleId);
+  if (!article) return;
+  
+  // Save to article
+  if (!article.eanList.includes(code)) article.eanList.push(code);
+  if (!article.ean) article.ean = code;
+  
+  // Save to DB
+  addToDB(code, article.refNasa, article.description);
+  
+  showToast(`✓ Code ${code} → ${article.refNasa} (${article.description})`, 'success');
+  playBeep('success');
+  renderAll();
+  document.getElementById('scanInput').focus();
+}
+
+// ========================================================
+// RENDER
+// ========================================================
+function renderAll() { renderStats(); renderTable(); renderProgress(); }
+
+function renderStats() {
+  const bar = document.getElementById('statsBar');
+  if (articles.length === 0) { bar.style.display = 'none'; return; }
+  bar.style.display = 'grid';
+  
+  const totalExp = articles.reduce((s,a) => s+a.expected, 0);
+  const totalRec = articles.reduce((s,a) => s+Math.min(a.received,a.expected), 0);
+  const noEan = articles.filter(a => !a.ean && a.eanList.length===0).length;
+  const surplus = surplusArticles.reduce((s,a) => s+a.received, 0) + articles.reduce((s,a) => s+Math.max(0,a.received-a.expected), 0);
+  
+  document.getElementById('statTotal').textContent = totalExp;
+  document.getElementById('statScanned').textContent = totalRec;
+  document.getElementById('statMissing').textContent = totalExp - totalRec;
+  document.getElementById('statNoEan').textContent = noEan;
+  document.getElementById('statSurplus').textContent = surplus;
+}
+
+function renderProgress() {
+  const pc = document.getElementById('progressContainer');
+  if (articles.length===0) { pc.style.display='none'; return; }
+  pc.style.display = 'block';
+  const totalExp = articles.reduce((s,a)=>s+a.expected,0);
+  const totalRec = articles.reduce((s,a)=>s+Math.min(a.received,a.expected),0);
+  const pct = totalExp > 0 ? Math.round((totalRec/totalExp)*100) : 0;
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressBar').style.width = pct+'%';
+}
+
+function renderTable() {
+  const empty = document.getElementById('emptyState');
+  const wrapper = document.getElementById('tableWrapper');
+  const tabs = document.getElementById('filterTabs');
+  
+  if (articles.length===0 && surplusArticles.length===0) {
+    empty.style.display='block'; wrapper.style.display='none'; tabs.style.display='none'; return;
+  }
+  empty.style.display='none'; wrapper.style.display='block'; tabs.style.display='flex';
+  
+  const pending = articles.filter(a => a.received < a.expected).length;
+  const complete = articles.filter(a => a.received === a.expected && a.expected > 0).length;
+  const issues = articles.filter(a => a.received > a.expected).length + surplusArticles.length;
+  
+  document.getElementById('fAll').textContent = articles.length + surplusArticles.length;
+  document.getElementById('fPending').textContent = pending;
+  document.getElementById('fComplete').textContent = complete;
+  document.getElementById('fIssue').textContent = issues;
+  
+  let filtered = [...articles];
+  if (currentFilter==='pending') filtered = filtered.filter(a=>a.received<a.expected);
+  else if (currentFilter==='complete') filtered = filtered.filter(a=>a.received===a.expected&&a.expected>0);
+  else if (currentFilter==='issue') filtered = filtered.filter(a=>a.received>a.expected);
+  
+  const tbody = document.getElementById('articlesTable');
+  let html = '';
+  
+  filtered.forEach(a => {
+    const diff = a.received - a.expected;
+    let statusCls='status-pending', statusTxt='En attente', rowCls='';
+    
+    if (a.received===0) { statusCls='status-pending'; statusTxt='En attente'; }
+    else if (a.received<a.expected) { statusCls='status-partial'; statusTxt='Partiel'; }
+    else if (a.received===a.expected) { statusCls='status-complete'; statusTxt='✓ Complet'; rowCls='row-complete'; }
+    else { statusCls='status-over'; statusTxt=`+${diff} surplus`; rowCls='row-over'; }
+    
+    const hasEan = a.ean || a.eanList.length > 0;
+    const eanDisplay = a.eanList.length > 0
+      ? a.eanList.map(e => `<span class="ean-badge known">${e}</span>`).join(' ')
+      : `<span class="ean-badge unknown" style="cursor:pointer;" onclick="showInlineEanInput('${a.id}', this)" title="Cliquer pour saisir un code">✏️ Saisir code</span>`;
+    
+    html += `
+      <tr class="${rowCls}">
+        <td class="code-cell">${a.refNasa}</td>
+        <td style="max-width:220px;">${a.description || '—'}<br><span style="font-size:10px;color:var(--text-dim);">${a.commande||''}</span></td>
+        <td>${eanDisplay}</td>
+        <td class="qty-cell" style="text-align:center; color:${a.price ? 'var(--text)' : 'var(--text-dim)'};">${a.price ? parseFloat(a.price).toFixed(2)+'€' : '—'}</td>
+        <td class="qty-cell" style="text-align:center">${a.expected}</td>
+        <td class="qty-cell" style="text-align:center">${a.received}</td>
+        <td class="qty-cell" style="text-align:center; color:${diff>0?'var(--danger)':diff<0?'var(--warning)':'var(--success)'}">
+          ${diff>0?'+'+diff : diff===0?'—':diff}
+        </td>
+        <td><span class="status-badge ${statusCls}">${statusTxt}</span></td>
+        <td><button class="btn btn-sm btn-icon" onclick="manualInc('${a.id}')" title="+1 manuel" style="font-size:14px;">+</button></td>
+      </tr>
+    `;
+  });
+  
+  if (currentFilter==='all'||currentFilter==='issue') {
+    surplusArticles.forEach(s => {
+      html += `
+        <tr class="row-surplus">
+          <td class="code-cell">—</td>
+          <td><span style="color:var(--purple);font-style:italic;">Hors commande</span></td>
+          <td><span class="ean-badge" style="background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border);">${s.barcode}</span></td>
+          <td class="qty-cell" style="text-align:center;color:var(--text-dim);">0</td>
+          <td class="qty-cell" style="text-align:center">${s.received}</td>
+          <td class="qty-cell" style="text-align:center;color:var(--purple)">+${s.received}</td>
+          <td><span class="status-badge" style="background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border);">Hors bon</span></td>
+          <td></td>
+        </tr>
+      `;
+    });
+  }
+  
+  tbody.innerHTML = html;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t.dataset.filter===f));
+  renderTable();
+}
+
+function manualInc(id) {
+  const a = articles.find(x=>x.id===id);
+  if (!a) return;
+  a.received++;
+  totalScans++;
+  const time = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  addLog(time, a.refNasa, a.received<=a.expected?'ok':'over', `${a.received}/${a.expected} (manuel)`);
+  renderAll();
+}
+
+// ========================================================
+// REPORT
+// ========================================================
+function exportReport() {
+  if (articles.length===0) { showToast('Aucune donnée','warning'); return; }
+  const now = new Date().toLocaleString('fr-FR');
+  const totalExp = articles.reduce((s,a)=>s+a.expected,0);
+  const totalRec = articles.reduce((s,a)=>s+Math.min(a.received,a.expected),0);
+  
+  const issues = [];
+  articles.forEach(a=>{
+    if(a.received<a.expected) issues.push({...a, type:'Manquant', diff:a.expected-a.received});
+    if(a.received>a.expected) issues.push({...a, type:'Surplus', diff:a.received-a.expected});
+  });
+  surplusArticles.forEach(s=>{
+    issues.push({refNasa:'—', description:'Hors commande', barcode:s.barcode, expected:0, received:s.received, type:'Hors bon', diff:s.received});
+  });
+  
+  let html = `
+    <div style="margin-bottom:18px;">
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">📅 ${now}</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+        <div style="padding:12px; background:var(--bg-input); border-radius:8px; text-align:center;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:600;">${totalRec} / ${totalExp}</div>
+          <div style="font-size:10px; color:var(--text-muted); margin-top:3px;">Articles réceptionnés</div>
+        </div>
+        <div style="padding:12px; background:var(--bg-input); border-radius:8px; text-align:center;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:600; color:${issues.length>0?'var(--danger)':'var(--success)'};">${issues.length}</div>
+          <div style="font-size:10px; color:var(--text-muted); margin-top:3px;">Écarts détectés</div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  if (issues.length > 0) {
+    html += `<table class="pdf-preview-table">
+      <thead><tr><th>Réf NASA</th><th>Désignation</th><th>Type</th><th>Att.</th><th>Reçu</th><th>Écart</th></tr></thead>
+      <tbody>${issues.map(i=>`
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;">${i.refNasa}</td>
+          <td>${i.description||'—'}</td>
+          <td style="color:${i.type==='Manquant'?'var(--warning)':i.type==='Surplus'?'var(--danger)':'var(--purple)'};font-weight:600;">${i.type}</td>
+          <td style="text-align:center">${i.expected}</td>
+          <td style="text-align:center">${i.received}</td>
+          <td style="text-align:center;font-weight:600;color:${i.type==='Manquant'?'var(--warning)':'var(--danger)'}">
+            ${i.type==='Manquant'?'-':'+'}${i.diff}
+          </td>
+        </tr>
+      `).join('')}</tbody></table>`;
+  } else {
+    html += `<div style="text-align:center;padding:20px;color:var(--success);font-size:14px;">✅ Aucun écart — Réception conforme !</div>`;
+  }
+  
+  document.getElementById('reportBody').innerHTML = html;
+  document.getElementById('reportModal').classList.add('active');
+}
+
+function closeReportModal() { document.getElementById('reportModal').classList.remove('active'); }
+
+function downloadReport() {
+  const now = new Date().toISOString().slice(0,10);
+  let csv = 'Réf NASA;Désignation;EAN;Commande;Attendu;Reçu;Écart;Statut\n';
+  articles.forEach(a=>{
+    const diff=a.received-a.expected;
+    const s=a.received===a.expected?'Complet':(a.received<a.expected?'Manquant':'Surplus');
+    csv += `${a.refNasa};${(a.description||'').replace(/;/g,',')};${a.ean};${a.commande||''};${a.expected};${a.received};${diff};${s}\n`;
+  });
+  surplusArticles.forEach(s=>{
+    csv += `;Hors commande;${s.barcode};;0;${s.received};+${s.received};Hors bon\n`;
+  });
+  const blob = new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`rapport-reception-${now}.csv`; a.click();
+  showToast('CSV téléchargé','success');
+}
+
+function printReport() {
+  const content = document.getElementById('reportBody').innerHTML;
+  const w = window.open('','_blank');
+  w.document.write(`<html><head><title>Rapport réception</title>
+    <style>body{font-family:Arial,sans-serif;padding:24px;color:#333}table{width:100%;border-collapse:collapse;margin:16px 0}th,td{padding:8px 12px;border:1px solid #ddd;text-align:left;font-size:12px}th{background:#f5f5f5;font-weight:600}h1{font-size:16px;margin-bottom:8px}</style></head>
+    <body><h1>📋 Rapport de réception — Narbonne Accessoires</h1>${content}</body></html>`);
+  w.document.close(); w.print();
+}
+
+// ========================================================
+// CATALOG & TARIF
+// ========================================================
+const CATALOG_KEY = 'narbonne_catalog';
+
+function loadCatalog() {
+  try { return JSON.parse(localStorage.getItem(CATALOG_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function saveCatalog(cat) {
+  try { localStorage.setItem(CATALOG_KEY, JSON.stringify(cat)); }
+  catch(e) { console.warn('Catalog too large for localStorage, keeping in memory only'); }
+  window._catalog = cat;
+}
+
+function getCatalog() {
+  return window._catalog || loadCatalog();
+}
+
+function lookupCatalog(ref) {
+  const cat = getCatalog();
+  // Try exact match first
+  if (cat[ref]) return cat[ref];
+  // Try padded version (4→6 digits, 5→6 digits)
+  if (/^\d+$/.test(ref)) {
+    const padded = ref.padStart(6, '0');
+    if (cat[padded]) return cat[padded];
+  }
+  // Try without leading zeros
+  if (/^0+\d+$/.test(ref)) {
+    const stripped = ref.replace(/^0+/, '');
+    if (cat[stripped]) return cat[stripped];
+  }
+  return null;
+}
+
+function showTarifModal() {
+  const cat = getCatalog();
+  const count = Object.keys(cat).length;
+  const catInfo = document.getElementById('catalogInfo');
+  if (count > 0) {
+    catInfo.style.display = 'block';
+    catInfo.innerHTML = `<div style="padding:12px; border-radius:8px; background:var(--success-bg); border:1px solid var(--success-border); font-size:12px; color:var(--success);">
+      ✅ Catalogue chargé : <strong>${count.toLocaleString()}</strong> références en mémoire.
+    </div>`;
+  } else {
+    catInfo.style.display = 'none';
+  }
+  document.getElementById('tarifPreview').innerHTML = '';
+  document.getElementById('tarifModal').classList.add('active');
+}
+function closeTarifModal() { document.getElementById('tarifModal').classList.remove('active'); }
+
+function handleCatalogJson(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      const count = Object.keys(data).length;
+      saveCatalog(data);
+      
+      // Auto-match articles in current bon
+      const matched = matchArticlesWithCatalog();
+      
+      const catInfo = document.getElementById('catalogInfo');
+      catInfo.style.display = 'block';
+      catInfo.innerHTML = `<div style="padding:12px; border-radius:8px; background:var(--success-bg); border:1px solid var(--success-border); font-size:12px; color:var(--success);">
+        ✅ <strong>${count.toLocaleString()}</strong> références chargées !
+        ${articles.length > 0 ? `<br>${matched} article(s) du bon actuel associés automatiquement (prix + désignation).` : ''}
+      </div>`;
+      
+      renderAll();
+      showToast(`Catalogue chargé : ${count.toLocaleString()} réfs`, 'success');
+    } catch(err) {
+      showToast('Erreur JSON : ' + err.message, 'danger');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function matchArticlesWithCatalog() {
+  let matched = 0;
+  articles.forEach(a => {
+    const entry = lookupCatalog(a.refNasa);
+    if (entry) {
+      if (entry.p && !a.price) { a.price = String(entry.p); matched++; }
+      else if (entry.p && a.price) { /* keep existing price */ }
+      if (entry.d && (!a.description || a.description.length < entry.d.length)) {
+        a.description = entry.d;
+      }
+    }
+  });
+  return matched;
+}
+
+function handleTarifFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const text = reader.result;
+    const lines = text.split('\n').filter(l => l.trim());
+    let matched = 0, unmatched = 0;
+    
+    for (const line of lines) {
+      const parts = line.split(/[;,\t]/);
+      if (parts.length < 2) continue;
+      
+      const col1 = parts[0].trim().replace(/['"]/g, '');
+      let price = '';
+      for (let i = 1; i < parts.length; i++) {
+        const val = parts[i].trim().replace(/['"]/g, '').replace(',', '.');
+        if (/^\d+\.?\d*$/.test(val) && parseFloat(val) > 0) {
+          price = val;
+          break;
+        }
+      }
+      
+      if (!price) continue;
+      
+      let found = false;
+      for (const a of articles) {
+        // Match by ref (with padding) or EAN
+        const refPadded = col1.padStart(6, '0');
+        const aRefPadded = a.refNasa.padStart(6, '0');
+        if (a.refNasa === col1 || aRefPadded === refPadded || a.ean === col1 || (a.eanList && a.eanList.includes(col1))) {
+          a.price = price;
+          found = true;
+          matched++;
+          break;
+        }
+      }
+      if (!found) unmatched++;
+    }
+    
+    renderAll();
+    document.getElementById('tarifPreview').innerHTML = `
+      <div style="padding:14px; border-radius:8px; background:${matched>0?'var(--success-bg)':'var(--warning-bg)'}; border:1px solid ${matched>0?'var(--success-border)':'var(--warning-border)'}; font-size:13px; color:${matched>0?'var(--success)':'var(--warning)'};">
+        <strong>${matched} prix associés</strong> sur ${articles.length} articles du bon.
+        ${articles.filter(a=>!a.price).length > 0 ? `<br><small style="color:var(--warning);">⚠️ ${articles.filter(a=>!a.price).length} article(s) encore sans prix.</small>` : '<br><small>✅ Tous les articles ont un prix !</small>'}
+      </div>
+    `;
+    if (matched > 0) showToast(`${matched} prix importés`, 'success');
+    else showToast('Aucune correspondance trouvée', 'warning');
+  };
+  reader.readAsText(file);
+}
+
+// ========================================================
+// LABELS
+// ========================================================
+function showLabelModal() {
+  const complete = articles.filter(a => a.received >= a.expected && a.expected > 0);
+  
+  if (complete.length === 0) {
+    showToast('Aucun article complet à étiqueter', 'warning');
+    return;
+  }
+  
+  const withEan = complete.filter(a => a.ean);
+  const withPrice = complete.filter(a => a.price);
+  const ready = complete.filter(a => a.ean && a.price);
+  const noPrice = complete.filter(a => a.ean && !a.price);
+  const noEan = complete.filter(a => !a.ean);
+  
+  let html = `
+    <div class="mapping-info" style="margin-bottom:16px;">
+      <strong>${complete.length} article(s) complets</strong> — 
+      ${ready.length} prêts à imprimer, 
+      ${noPrice.length > 0 ? `<span style="color:var(--warning);">${noPrice.length} sans prix</span>, ` : ''}
+      ${noEan.length > 0 ? `<span style="color:var(--orange);">${noEan.length} sans EAN</span>` : ''}
+      <br><small>Format : 70×40mm — 3 colonnes × 7 lignes = 21 étiquettes par page A4</small>
+    </div>
+  `;
+  
+  if (noPrice.length > 0) {
+    html += `<div style="margin-bottom:14px; padding:10px 14px; background:var(--warning-bg); border:1px solid var(--warning-border); border-radius:8px; font-size:12px; color:var(--warning);">
+      ⚠️ Articles sans prix : ${noPrice.map(a=>`<strong>${a.refNasa}</strong> ${a.description}`).join(', ')}<br>
+      <small>→ Importez un fichier tarif pour compléter les prix.</small>
+    </div>`;
+  }
+  
+  // Preview of labels to print
+  html += `<div style="font-size:12px; margin-bottom:12px; color:var(--text-muted);">Aperçu des étiquettes à imprimer :</div>`;
+  html += `<table class="pdf-preview-table">
+    <thead><tr><th>✓</th><th>Réf NASA</th><th>Désignation</th><th>EAN</th><th>Prix TTC</th><th>Qté étiq.</th></tr></thead>
+    <tbody>`;
+  
+  complete.forEach(a => {
+    const canPrint = a.ean && a.price;
+    html += `<tr style="${canPrint?'':'opacity:0.5'}">
+      <td><input type="checkbox" ${canPrint?'checked':''} ${canPrint?'':'disabled'} data-label-id="${a.id}" class="label-check"></td>
+      <td style="font-family:'JetBrains Mono',monospace;">${a.refNasa}</td>
+      <td>${a.description}</td>
+      <td style="font-family:'JetBrains Mono',monospace; font-size:10px;">${a.ean || '<span style="color:var(--orange)">Manquant</span>'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;">${a.price ? parseFloat(a.price).toFixed(2)+'€' : '<span style="color:var(--warning)">Manquant</span>'}</td>
+      <td><input type="number" value="${a.expected}" min="1" style="width:50px; padding:4px 6px; background:var(--bg-input); border:1px solid var(--border); border-radius:5px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:12px; text-align:center;" data-qty-id="${a.id}" ${canPrint?'':'disabled'}></td>
+    </tr>`;
+  });
+  
+  html += `</tbody></table>`;
+  
+  document.getElementById('labelModalBody').innerHTML = html;
+  document.getElementById('labelModal').classList.add('active');
+}
+
+function closeLabelModal() { document.getElementById('labelModal').classList.remove('active'); }
+
+function printLabels() {
+  // Gather checked articles with quantities
+  const labelItems = [];
+  document.querySelectorAll('.label-check:checked').forEach(cb => {
+    const id = cb.dataset.labelId;
+    const a = articles.find(x => x.id === id);
+    if (!a) return;
+    const qtyInput = document.querySelector(`[data-qty-id="${id}"]`);
+    const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
+    for (let i = 0; i < qty; i++) {
+      labelItems.push({
+        refNasa: a.refNasa,
+        description: a.description,
+        ean: a.ean,
+        price: parseFloat(a.price).toFixed(2)
+      });
+    }
+  });
+  
+  if (labelItems.length === 0) {
+    showToast('Aucune étiquette sélectionnée', 'warning');
+    return;
+  }
+  
+  // Generate print HTML
+  // 70x40mm labels, 3 columns x 7 rows = 21 per A4 page
+  const COLS = 3;
+  const ROWS = 7;
+  const PER_PAGE = COLS * ROWS;
+  
+  let printHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 8mm 5mm;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Arial, Helvetica, sans-serif; }
+  
+  .page {
+    width: 210mm;
+    page-break-after: always;
+    display: grid;
+    grid-template-columns: repeat(3, 70mm);
+    grid-template-rows: repeat(7, 40mm);
+    gap: 0;
+    justify-content: center;
+  }
+  .page:last-child { page-break-after: auto; }
+  
+  .label {
+    width: 70mm;
+    height: 40mm;
+    border: 0.3px solid #ccc;
+    padding: 2.5mm 3mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .label-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .label-ref {
+    font-size: 7pt;
+    color: #666;
+    font-weight: 600;
+  }
+  
+  .label-price {
+    font-size: 14pt;
+    font-weight: 800;
+    color: #000;
+    text-align: right;
+    line-height: 1;
+  }
+  .label-price .euro { font-size: 10pt; }
+  .label-price .ttc { font-size: 6pt; color: #666; font-weight: 400; display: block; }
+  
+  .label-desc {
+    font-size: 7.5pt;
+    color: #333;
+    line-height: 1.3;
+    max-height: 12mm;
+    overflow: hidden;
+    font-weight: 500;
+  }
+  
+  .label-barcode {
+    text-align: center;
+    margin-top: auto;
+  }
+  
+  .label-barcode canvas {
+    height: 10mm;
+    width: auto;
+    max-width: 58mm;
+  }
+  
+  .label-ean {
+    font-size: 6.5pt;
+    color: #555;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1.5px;
+    margin-top: 0.5mm;
+  }
+  
+  @media print {
+    .label { border: 0.2px solid #ddd; }
+  }
+</style>
+</head><body>`;
+
+  // Create pages
+  const totalPages = Math.ceil(labelItems.length / PER_PAGE);
+  
+  for (let p = 0; p < totalPages; p++) {
+    printHtml += `<div class="page">`;
+    for (let i = 0; i < PER_PAGE; i++) {
+      const idx = p * PER_PAGE + i;
+      if (idx < labelItems.length) {
+        const item = labelItems[idx];
+        const priceParts = item.price.split('.');
+        printHtml += `
+          <div class="label">
+            <div class="label-top">
+              <div class="label-ref">Réf: ${item.refNasa}</div>
+              <div class="label-price">
+                ${priceParts[0]},<span class="euro">${priceParts[1]}€</span>
+                <span class="ttc">TTC</span>
+              </div>
+            </div>
+            <div class="label-desc">${item.description}</div>
+            <div class="label-barcode">
+              <canvas id="bc_${p}_${i}" data-ean="${item.ean}"></canvas>
+              <div class="label-ean">${item.ean}</div>
+            </div>
+          </div>`;
+      } else {
+        printHtml += `<div class="label" style="border-color:transparent;"></div>`;
+      }
+    }
+    printHtml += `</div>`;
+  }
+  
+  printHtml += `
+<script>
+// EAN-13 barcode renderer
+function drawEAN13(canvas, ean) {
+  if (!ean || ean.length !== 13) { drawCode128(canvas, ean); return; }
+  
+  const ctx = canvas.getContext('2d');
+  const encoding = [
+    ['LLLLLL','RRRRRR'], // 0
+    ['LLGLGG','RRRRRR'], // 1
+    ['LLGGLG','RRRRRR'], // 2
+    ['LLGGGL','RRRRRR'], // 3
+    ['LGLLGG','RRRRRR'], // 4
+    ['LGGLLG','RRRRRR'], // 5
+    ['LGGGLL','RRRRRR'], // 6
+    ['LGLGLG','RRRRRR'], // 7
+    ['LGLGGL','RRRRRR'], // 8
+    ['LGGLGL','RRRRRR'], // 9
+  ];
+  
+  const L = ['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+  const G = ['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
+  const R = ['1110010','1100110','1101100','1000010','1011100','1001110','1010000','1000100','1001000','1110100'];
+  
+  const firstDigit = parseInt(ean[0]);
+  const pattern = encoding[firstDigit][0];
+  
+  let bits = '101'; // Start guard
+  for (let i = 0; i < 6; i++) {
+    const digit = parseInt(ean[i + 1]);
+    const type = pattern[i];
+    bits += type === 'L' ? L[digit] : G[digit];
+  }
+  bits += '01010'; // Center guard
+  for (let i = 0; i < 6; i++) {
+    const digit = parseInt(ean[i + 7]);
+    bits += R[digit];
+  }
+  bits += '101'; // End guard
+  
+  const barWidth = 1.5;
+  const height = 35;
+  canvas.width = bits.length * barWidth + 4;
+  canvas.height = height;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  for (let i = 0; i < bits.length; i++) {
+    if (bits[i] === '1') {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(2 + i * barWidth, 0, barWidth, height);
+    }
+  }
+}
+
+// Fallback Code128 for non-EAN codes
+function drawCode128(canvas, code) {
+  if (!code) return;
+  const ctx = canvas.getContext('2d');
+  // Simple visual representation
+  const barWidth = 1.2;
+  const height = 35;
+  canvas.width = code.length * 11 * barWidth + 40;
+  canvas.height = height;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // Generate pseudo-barcode pattern from string
+  let x = 10;
+  for (let i = 0; i < code.length; i++) {
+    const charCode = code.charCodeAt(i);
+    for (let b = 0; b < 8; b++) {
+      if ((charCode >> b) & 1) {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(x, 0, barWidth, height);
+      }
+      x += barWidth;
+    }
+    x += barWidth * 2;
+  }
+}
+
+// Render all barcodes
+document.querySelectorAll('canvas[data-ean]').forEach(c => {
+  drawEAN13(c, c.dataset.ean);
+});
+<\/script></body></html>`;
+
+  // Open print window
+  const printWin = window.open('', '_blank', 'width=900,height=700');
+  printWin.document.write(printHtml);
+  printWin.document.close();
+  
+  // Wait for rendering then print
+  setTimeout(() => {
+    printWin.print();
+  }, 500);
+  
+  closeLabelModal();
+  showToast(`${labelItems.length} étiquettes générées`, 'success');
+}
+
+// ========================================================
+// RESET
+// ========================================================
+function resetAll() {
+  if(articles.length===0&&surplusArticles.length===0) return;
+  if(!confirm('Réinitialiser le bon en cours ?\n(La base EAN locale sera conservée)')) return;
+  articles=[]; surplusArticles=[]; scanHistory=[]; totalScans=0; currentFilter='all';
+  pendingAssocCode=null; hideAssocPanel();
+  document.getElementById('scanLog').innerHTML='<div style="padding:16px;text-align:center;color:var(--text-dim);font-size:11px;">Aucun scan</div>';
+  document.getElementById('scanCountLabel').textContent='0 scans';
+  document.getElementById('scanFeedback').classList.remove('visible');
+  renderAll();
+  showToast('Bon réinitialisé (base EAN conservée)','warning');
+}
+
+// ========================================================
+// CAMERA BARCODE SCANNER
+// ========================================================
+let cameraStream = null;
+let cameraActive = false;
+let scanInterval = null;
+let lastScannedCode = '';
+let lastScanTime = 0;
+let barcodeDetector = null;
+
+// Check if BarcodeDetector is available
+function checkBarcodeSupport() {
+  if ('BarcodeDetector' in window) {
+    return true;
+  }
+  return false;
+}
+
+async function toggleCamera() {
+  if (cameraActive) {
+    stopCamera();
+  } else {
+    await startCamera();
+  }
+}
+
+async function startCamera() {
+  const container = document.getElementById('cameraContainer');
+  const video = document.getElementById('cameraVideo');
+  const camBtn = document.getElementById('camBtn');
+  
+  // Step 1: Check if camera API is available
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('API caméra non disponible sur ce navigateur', 'danger');
+    showFeedback('danger', '📷 Caméra non supportée', 
+      'Votre navigateur ne supporte pas l\'accès caméra. Essayez Chrome sur Android ou Safari sur iPhone.');
+    return;
+  }
+  
+  // Step 2: Init barcode detector
+  if (checkBarcodeSupport()) {
+    try {
+      barcodeDetector = new BarcodeDetector({
+        formats: ['ean_13', 'ean_8', 'code_128', 'code_39', 'upc_a', 'upc_e']
+      });
+    } catch(e) {
+      console.warn('BarcodeDetector init error:', e);
+      barcodeDetector = null;
+    }
+  }
+  
+  if (!barcodeDetector) {
+    showFeedback('warning', '⚠️ Détection auto non disponible',
+      'Le scan automatique n\'est pas supporté sur ce navigateur. La caméra s\'ouvrira quand même — vous pourrez lire le code visuellement et le taper manuellement.');
+  }
+  
+  // Step 3: Request camera
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment',
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+    });
+  } catch(err) {
+    console.error('Camera error:', err);
+    if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+      showFeedback('danger', '🚫 Accès caméra refusé', 
+        'Autorisez la caméra : appuyez sur l\'icône ℹ️ ou le cadenas dans la barre d\'adresse de Chrome → Autorisations → Caméra → Autoriser, puis rechargez la page.');
+    } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+      showFeedback('danger', '📷 Aucune caméra trouvée', 'Aucune caméra détectée sur cet appareil.');
+    } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+      showFeedback('danger', '📷 Caméra occupée', 'La caméra est utilisée par une autre application. Fermez-la et réessayez.');
+    } else if (err.name === 'OverconstrainedError') {
+      // Retry without constraints
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      } catch(e2) {
+        showFeedback('danger', '📷 Erreur caméra', 'Impossible d\'accéder à la caméra: ' + e2.message);
+        return;
+      }
+    } else {
+      showFeedback('danger', '📷 Erreur caméra', err.name + ': ' + err.message);
+    }
+    if (!cameraStream) return;
+  }
+  
+  // Step 4: Display video
+  video.srcObject = cameraStream;
+  
+  // Wait for video to actually start playing
+  try {
+    await new Promise((resolve, reject) => {
+      video.onloadedmetadata = () => {
+        video.play().then(resolve).catch(reject);
+      };
+      setTimeout(() => reject(new Error('Timeout vidéo')), 5000);
+    });
+  } catch(err) {
+    showFeedback('danger', '📷 Erreur vidéo', 'La vidéo ne démarre pas: ' + err.message);
+    stopCamera();
+    return;
+  }
+  
+  container.style.display = 'block';
+  camBtn.innerHTML = '⏹';
+  camBtn.title = 'Arrêter la caméra';
+  cameraActive = true;
+  
+  showFeedback('success', '📷 Caméra active', 
+    barcodeDetector ? 'Pointez le code-barres — détection automatique activée' : 'Caméra ouverte — lisez le code et tapez-le manuellement');
+  
+  // Step 5: Start scanning if detector available
+  if (barcodeDetector) {
+    startBarcodeScanning();
+  }
+}
+
+function stopCamera() {
+  const container = document.getElementById('cameraContainer');
+  const video = document.getElementById('cameraVideo');
+  const camBtn = document.getElementById('camBtn');
+  
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(t => t.stop());
+    cameraStream = null;
+  }
+  video.srcObject = null;
+  container.style.display = 'none';
+  camBtn.innerHTML = '📷';
+  camBtn.title = 'Scanner avec la caméra';
+  cameraActive = false;
+  
+  if (scanInterval) {
+    clearInterval(scanInterval);
+    scanInterval = null;
+  }
+  
+  document.getElementById('scanInput').focus();
+}
+
+function startBarcodeScanning() {
+  const video = document.getElementById('cameraVideo');
+  
+  scanInterval = setInterval(async () => {
+    if (!cameraActive || !barcodeDetector || video.readyState < 2) return;
+    try {
+      const barcodes = await barcodeDetector.detect(video);
+      if (barcodes.length > 0) {
+        const code = barcodes[0].rawValue;
+        if (code) handleCameraScan(code);
+      }
+    } catch(e) {
+      // Silently ignore detection errors (frame not ready, etc.)
+    }
+  }, 250);
+}
+
+function handleCameraScan(code) {
+  if (!code) return;
+  const now = Date.now();
+  // Debounce: ignore same code within 3 seconds
+  if (code === lastScannedCode && (now - lastScanTime) < 3000) return;
+  lastScannedCode = code;
+  lastScanTime = now;
+  
+  // Visual feedback on camera
+  const container = document.getElementById('cameraContainer');
+  container.style.borderColor = 'var(--success)';
+  setTimeout(() => { container.style.borderColor = 'var(--accent)'; }, 800);
+  
+  // Vibrate on mobile
+  if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+  
+  // Process the scan
+  processScan(code);
+}
+
+// ========================================================
+// INIT
+// ========================================================
+updateDBCount();
+window._catalog = loadCatalog();
+const catCount = Object.keys(window._catalog).length;
+if (catCount > 0) console.log(`Catalogue chargé: ${catCount} réfs`);
+document.getElementById('scanInput').focus();
+document.addEventListener('keydown', e => {
+  if (e.key==='Enter' && e.target.closest('.modal')) e.preventDefault();
+});
+</script>
+</body>
+</html>
