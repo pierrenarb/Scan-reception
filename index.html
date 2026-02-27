@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Réception Marchandises — Narbonne Accessoires</title>
+<meta name="theme-color" content="#0f1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Réception NA">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -2322,6 +2328,24 @@ document.getElementById('scanInput').focus();
 document.addEventListener('keydown', e => {
   if (e.key==='Enter' && e.target.closest('.modal')) e.preventDefault();
 });
+
+// Register Service Worker for offline support
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    console.log('Service Worker enregistré');
+    // Check for updates
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === 'activated') {
+          showToast('✅ App mise à jour — disponible hors ligne', 'success');
+        }
+      };
+    };
+  }).catch(err => {
+    console.log('Service Worker non disponible:', err.message);
+  });
+}
 </script>
 </body>
 </html>
